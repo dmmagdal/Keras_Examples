@@ -7,7 +7,7 @@
 
 import os
 import gdown
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
@@ -35,12 +35,12 @@ def main():
 	dataset = dataset.map(lambda x: x / 255.0)
 
 	# Display a sample image.
-	'''
+	#'''
 	for x in dataset:
 		plt.axis("off")
 		plt.imshow((x.numpy() * 255).astype("int32")[0])
 		break
-	'''
+	#'''
 
 	# Creat the discriminator. It maps a 64x64 image to a binary 
 	# classification score.
