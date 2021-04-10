@@ -37,6 +37,15 @@ from tokenizers import BertWordPieceTokenizer
 from transformers import BertTokenizer, TFBertModel, BertConfig
 
 
+#'''
+# Configuration code for allowing GPU usage on Tensorflow 2. Comment
+# out when running on Tensorflow 1 on CPU.
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth=True
+session = tf.compat.v1.Session(config=config)
+#'''
+
+
 def main():
 	max_len = 384
 	configuration = BertConfig()
