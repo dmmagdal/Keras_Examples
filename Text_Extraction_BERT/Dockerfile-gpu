@@ -1,0 +1,37 @@
+# Docker file to run a container that will run the
+# text_extract_bert.py in Python 3 for Tensorflow 2.4.0 (with GPU).
+
+# Load tensorflow image for tensorflow 2.4.0 GPU and Python 3.
+FROM tensorflow/tensorflow:2.4.0-gpu
+
+# Nvidia-docker 1.0
+LABEL com.nvidia.volumes.needed="nvidia_driver"
+LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
+
+# Nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES=all \
+	NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+	NVIDIA_REQUIRE_CUDA="cuda>=10.0" \
+	LANG=C.UTF-8
+
+# Set locale for variable (pulled from dockerfile in original OpenAI
+# GPT2 repository).
+#ENV LANG=C.UTF-8
+
+# Create a directory in the docker container. Set the working directory
+# in the container to that newly created directory and then add all
+# files from the current directory in the host to the working directory
+# in the container.
+RUN mkdir /text-extract-bert
+WORKDIR /text-extract-bert
+ADD . /text-extract-bert
+
+# Set up a volume so that the current directory in the host is
+# connected to the working directory in the container.
+
+# Install all required modules in the requirements.txt file.]
+RUN python3 -m pip install --upgrade pip
+RUN pip3 install -r requirements.txt
+
+# Run the text_extract_bert.py program.
+CMD ["python3", "text_extract_bert.py"]
