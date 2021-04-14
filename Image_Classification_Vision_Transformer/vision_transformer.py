@@ -253,7 +253,7 @@ def run_experiment(model, learning_rate, weight_decay, batch_size,
 		batch_size=batch_size,
 		epochs=num_epochs,
 		validation_split=0.1,
-		callbacks=[checkpoint_callback]
+		callbacks=[checkpoint_callback],
 	)
 
 	model.load_weights(checkpoint_filepath)
