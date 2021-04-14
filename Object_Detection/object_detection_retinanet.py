@@ -223,7 +223,7 @@ def main():
 # 	bounding boxes.
 # @return: returns swapped boxes with shape same as that of boxes.
 def swap_xy(boxes):
-	return tf.stack([boxes[:, 1], boxes[:, 0], boxes[:, 3], boxes[2]], axis=-1)
+	return tf.stack([boxes[:, 1], boxes[:, 0], boxes[:, 3], boxes[:, 2]], axis=-1)
 
 
 # Changes the box format to center, width, and height.

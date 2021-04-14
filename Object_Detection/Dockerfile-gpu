@@ -3,7 +3,7 @@
 # (with GPU).
 
 # Load tensorflow image for tensorflow 2.4.0 and Python 3.
-FROM tensorflow/tensorflow:2.4.0
+FROM tensorflow/tensorflow:2.4.0-gpu
 
 # Nvidia-docker 1.0
 LABEL com.nvidia.volumes.needed="nvidia_driver"
@@ -17,7 +17,7 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
 
 # Set locale for variable (pulled from dockerfile in original OpenAI
 # GPT2 repository).
-ENV LANG=C.UTF-8
+#ENV LANG=C.UTF-8
 
 # Create a directory in the docker container. Set the working directory
 # in the container to that newly created directory and then add all
