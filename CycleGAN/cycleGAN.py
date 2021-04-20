@@ -15,7 +15,7 @@
 
 import os
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -89,7 +89,7 @@ def main():
 	)
 
 	# Visualize some samples.
-	'''
+	#'''
 	_, ax = plt.subplots(4, 2, figsize=(10, 15))
 	for i, samples in enumerate(zip(train_horses.take(4), train_zebras.take(4))):
 		horse = (((samples[0][0] * 127.5) + 127.5).numpy()).astype(np.uint8)
@@ -97,7 +97,7 @@ def main():
 		ax[i, 0].imshow(horse)
 		ax[i, 1].imshow(zebra)
 		plt.show()
-	'''
+	#'''
 
 	# Get the generators.
 	gen_G = get_resnet_generator(name="generator_G")
@@ -139,7 +139,7 @@ def main():
 	)
 
 	# Callbacks.
-	#plotter = GANMonitor()
+	plotter = GANMonitor()
 	checkpoint_filepath = "./model_checkpoints/cyclegan_checkpoints.{epoch:03d}"
 	model_checkpoint_callback = keras.callbacks.ModelCheckpoint(
 		filepath=checkpoint_filepath
@@ -150,8 +150,8 @@ def main():
 	cycle_gan_model.fit(
 		tf.data.Dataset.zip((train_horses, train_zebras)),
 		epochs=1,
-		#callbacks=[plotter, model_checkpoint_callback],
-		callbacks=[model_checkpoint_callback],
+		callbacks=[plotter, model_checkpoint_callback],
+		#callbacks=[model_checkpoint_callback],
 	)
 
 	# Test the performance of the model.
@@ -164,7 +164,7 @@ def main():
 	cycle_gan_model.load_weights(weight_file).expect_partial()
 	print("Weights loaded successfuilly.")
 
-	'''
+	#'''
 	_, ax = plt.subplots(4, 2, figsize=(10, 15))
 	for i, img in enumerate(test_horses.take(4)):
 		prediction = cycle_gan_model.gen_G(img, training=False)[0].numpy()
@@ -182,7 +182,7 @@ def main():
 		prediction.save("predicted_img_{i}.png".format(i=i))
 	plt.tight_layout()
 	plt.show()
-	'''
+	#'''
 
 	# Exit the program.
 	exit(0)
@@ -515,7 +515,7 @@ class CycleGAN(keras.Model):
 
 
 # Create a callback that periodically saves generated images.
-'''
+#'''
 class GANMonitor(keras.callbacks.Callback):
 	# A callback to generated and save images after each epoch.
 	def __init__(self, num_img=4):
@@ -542,7 +542,7 @@ class GANMonitor(keras.callbacks.Callback):
 			)
 		plt.show()
 		plt.close()
-'''
+#'''
 
 
 if __name__ == '__main__':
