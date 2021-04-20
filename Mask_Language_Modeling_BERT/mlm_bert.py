@@ -38,6 +38,15 @@ from dataclasses import dataclass
 from pprint import pprint
 
 
+#'''
+# Configuration code for allowing GPU usage on Tensorflow 2. Comment
+# out when running on Tensorflow 1 on CPU.
+sess_config = tf.compat.v1.ConfigProto()
+sess_config.gpu_options.allow_growth=True
+session = tf.compat.v1.Session(config=sess_config)
+#'''
+
+
 def main():
 	config = Config()
 
