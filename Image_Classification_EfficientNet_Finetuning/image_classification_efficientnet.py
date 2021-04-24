@@ -112,7 +112,7 @@
 # Windows/MacOS/Linux
 
 
-import matplotlib.pyploy as plt
+import matplotlib.pyplot as plt
 import tensorflow_datasets as tfds
 import tensorflow as tf
 from tensorflow.keras import layers
