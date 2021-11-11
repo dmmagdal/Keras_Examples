@@ -29,7 +29,8 @@ RUN mkdir datasets
 #RUN mkdir datasets/annotations
 #RUN mkdir datasets/train2014
 
-# Download and extract datasets.
+# Download and extract datasets. Note that this will take quite some
+# time to do depending on the internet connection.
 RUN wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
 RUN unzip annotations_trainval2014.zip -d datasets
 RUN rm annotations_trainval2014.zip

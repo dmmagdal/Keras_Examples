@@ -121,6 +121,7 @@ def main():
 			"caption": bytes_feature(caption.encode()),
 			"raw_image": bytes_feature(tf.io.read_file(image_path).numpy()),
 		}
+		return tf.train.Example(features=tf.train.Features(feature=feature))
 
 
 	def write_tfrecords(file_name, image_paths):
@@ -128,8 +129,8 @@ def main():
 		image_path_list = []
 		for image_path in image_paths:
 			captions = image_path_to_caption[image_path][:captions_per_image]
-			caption_list.append(captions)
-			image_path_list.append([image_path] * len(captions))
+			caption_list.extend(caption_list)
+			image_path_list.extend([image_path] * len(captions))
 
 		with tf.io.TFRecordWriter(file_name) as writer:
 			for example_idx in range(len(image_path_list)):
@@ -164,7 +165,7 @@ def main():
 	# Create tf.data.Dataset for training and evaluation.
 	feature_description = {
 		"caption": tf.io.FixedLenFeature([], tf.string),
-		"raw_image": io.FixedLenFeature([], tf.string),
+		"raw_image": tf.io.FixedLenFeature([], tf.string),
 	}
 
 
@@ -203,9 +204,9 @@ def main():
 		projected_embeddings = layers.Dense(units=projection_dims)(embeddings)
 		for _ in range(num_projection_layers):
 			x = tf.nn.gelu(projected_embeddings)
-			x = layer.Dense(projection_dims)(x)
-			x = layer.Dropout(dropout_rate)(x)
-			x = layer.Add()([projected_embeddings, x])
+			x = layers.Dense(projection_dims)(x)
+			x = layers.Dropout(dropout_rate)(x)
+			x = layers.Add()([projected_embeddings, x])
 			projected_embeddings = layers.LayerNormalization()(x)
 		return projected_embeddings
 
@@ -227,7 +228,7 @@ def main():
 			layer.trainable = trainable
 
 		# Receive the images as inputs.
-		inputs = layer.Input(shape=(299, 299, 3), name="image_input")
+		inputs = layers.Input(shape=(299, 299, 3), name="image_input")
 
 		# Preprocess the input image.
 		xception_input = keras.applications.xception.preprocess_input(
@@ -239,7 +240,7 @@ def main():
 		embeddings = xception(xception_input)
 
 		# Project the embeddings produced by the model.
-		outputs = projected_embeddings(
+		outputs = project_embeddings(
 			embeddings, num_projection_layers, projection_dims, 
 			dropout_rate
 		)
@@ -280,7 +281,7 @@ def main():
 		embeddings = bert(bert_inputs)["pooled_output"]
 
 		# Project the embeddings produced by the model.
-		outputs = projected_embeddings(
+		outputs = project_embeddings(
 			embeddings, num_projection_layers, projection_dims, 
 			dropout_rate
 		)
@@ -444,13 +445,13 @@ def main():
 	)
 
 	# Create a learning rate scheduler callback.
-	reduce_lr = keras.callback.ReduceLROnPlateau(
+	reduce_lr = keras.callbacks.ReduceLROnPlateau(
 		monitor="val_loss", patience=5,
 		restore_best_weights=True,
 	)
 
 	# Create an early stopping callback.
-	early_stopping = keras.callback.EarlyStopping(
+	early_stopping = keras.callbacks.EarlyStopping(
 		monitor="val_loss", patience=5,
 		restore_best_weights=True,
 	)
