@@ -129,7 +129,7 @@ def main():
 		image_path_list = []
 		for image_path in image_paths:
 			captions = image_path_to_caption[image_path][:captions_per_image]
-			caption_list.extend(caption_list)
+			caption_list.extend(captions)
 			image_path_list.extend([image_path] * len(captions))
 
 		with tf.io.TFRecordWriter(file_name) as writer:
