@@ -504,7 +504,7 @@ def main():
 
 
 	def read_image(image_path):
-		image_array = tf.image.decoder_jpeg(
+		image_array = tf.image.decode_jpeg(
 			tf.io.read_file(image_path), channels=3
 		)
 		return tf.image.resize(image_array, (299, 299))
@@ -558,11 +558,13 @@ def main():
 	query = "a family standing next to the ocean on a sandy beach with a surf board"
 	matches = find_matches(image_embeddings, [query], normalize=True)[0]
 
+	'''
 	plt.figure(figsize=(20, 20))
 	for i in range(9):
 		ax = plt.subplot(3, 3, i + 1)
 		plt.imshow(mpimg.imread(matches[i]))
 		plt.axis("off")
+	'''
 
 
 	# Evaluate the retrieval quality.
@@ -573,7 +575,7 @@ def main():
 	# retrieved within the top k matches.
 	def compute_top_k_accuracy(image_paths, k=100):
 		hits = 0
-		num_batches = int(ceil(len(image_paths) / batch_size))
+		num_batches = int(np.ceil(len(image_paths) / batch_size))
 		for idx in tqdm(range(num_batches)):
 			start_idx = idx * batch_size
 			end_idx = start_idx + batch_size
