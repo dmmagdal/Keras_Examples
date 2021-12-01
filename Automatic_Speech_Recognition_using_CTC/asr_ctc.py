@@ -217,7 +217,7 @@ def main():
 		return loss
 
 	# Define the model. Here, define a model similar to DeepSpeech 2.
-	def build_model(input_dim, output_dim, rnn_layers=1, rnn_units=128):
+	def build_model(input_dim, output_dim, rnn_layers=5, rnn_units=128):
 		# Model similar to DeepSpeech2.
 		# Model's input.
 		input_spectrogram = layers.Input((None, input_dim), name="input")
@@ -320,7 +320,7 @@ def main():
 					label = (
 						tf.strings.reduce_join(num_to_char(label)).numpy().decode("utf-8")
 					)
-					target.append(label)
+					targets.append(label)
 			wer_score = wer(targets, predictions)
 			print("-"*100)
 			print(f"Word Error Rate: {wer_score:.4f}")
