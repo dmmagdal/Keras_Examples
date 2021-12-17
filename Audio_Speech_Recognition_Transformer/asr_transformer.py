@@ -345,7 +345,8 @@ class Transformer(keras.Model):
 def get_data(wavs, id_to_text, maxlen=50):
 	data = []
 	for w in wavs:
-		id = w.split("/")[-1].split(".")[0]
+		#id = w.split("/")[-1].split(".")[0]
+		id = os.path.split(w)[-1].split(".")[0]
 		if len(id_to_text[id]) < maxlen:
 			data.append({"audio": w, "text": id_to_text[id]})
 	return data
