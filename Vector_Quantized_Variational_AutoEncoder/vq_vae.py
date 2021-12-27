@@ -338,7 +338,7 @@ def main():
 	# PixelCNN hyperparameters.
 	num_residual_blocks = 2
 	num_pixelcnn_layers = 2
-	pixelcnn_input_shape = encoder_outputs.shape[1:-1]
+	pixelcnn_input_shape = encoded_outputs.shape[1:-1]
 	print(f"Input shape of the PixelCNN: {pixelcnn_input_shape}")
 
 	# Don't worry about the input shape. It'll become clear in the
