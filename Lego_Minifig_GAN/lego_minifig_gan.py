@@ -2,7 +2,10 @@
 # Simple keras GAN to create LEGO minifigures.
 # Source: https://www.kaggle.com/christianlillelund/simple-keras-gan-
 # to-create-lego-figures
-# Source: https://www.kaggle.com/ihelon/lego-minifigures-classification
+# Data Source: https://www.kaggle.com/ihelon/lego-minifigures-
+# classification
+# Alt Project Source: https://medium.com/@thundo/generate-lego-
+# minifigures-with-deep-learning-f14cb8d678d8
 # Tensorflow 2.4.0
 # Windows/MacOS/Linux
 # Python 3.7
@@ -193,7 +196,7 @@ def main():
 			)
 
 			print("Epoch %d, d1=%.3f, d2=%.3f g=%.3f" % 
-				(epoch  + 1, d_loss1, d_loss2, g_loss)
+				(epoch + 1, d_loss1, d_loss2, g_loss)
 			)
 
 			# Save GAN weights, a fake and real image every 50 epochs.
