@@ -160,7 +160,7 @@ def main():
 
 		# Compile the discriminator.
 		optimizer = keras.optimizers.RMSprop(
-			lr=0.0004, clipvalue=1.0, decay=1e-8
+			learning_rate=0.0004, clipvalue=1.0, decay=1e-8
 		)
 		discriminator.compile(
 			optimizer=optimizer, loss="binary_crossentropy",
@@ -219,7 +219,7 @@ def main():
 
 	# Compile the GAN.
 	optimizer = keras.optimizers.RMSprop(
-		lr=0.0008, clipvalue=1.0, decay=1e-8
+		learning_rate=0.0008, clipvalue=1.0, decay=1e-8
 	)
 	gan.compile(optimizer=optimizer, loss="binary_crossentropy")
 
