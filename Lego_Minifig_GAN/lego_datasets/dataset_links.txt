@@ -1,0 +1,2 @@
+bricks dataset: https://www.kaggle.com/joosthazelzet/lego-brick-images
+sets dataset: https://www.kaggle.com/mterzolo/lego-sets
