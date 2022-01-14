@@ -25,13 +25,13 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 
-#'''
+'''
 # Configuration code for allowing GPU usage on Tensorflow 2. Comment
 # out when running on Tensorflow 1 on CPU.
 config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth=True
 session = tf.compat.v1.Session(config=config)
-#'''
+'''
 
 
 def main():
@@ -335,10 +335,20 @@ class Transformer(keras.Model):
 			dec_out = self.decode(enc, dec_input)
 			logits = self.classifier(dec_out)
 			logits = tf.argmax(logits, axis=-1, output_type=tf.int32)
-			last_logit = tf.expand_dims(logits)
+			last_logit = tf.expand_dims(logits[:, -1], axis=-1)
 			dec_logits.append(last_logit)
 			dec_input = tf.concat([dec_input, last_logit], axis=-1)
 		return dec_input
+
+
+	def get_config(self):
+		config = {
+			"num_layers_enc": self.num_layers_enc,
+			"num_layers_dec": self.num_layers_dec,
+			"target_maxlen": self.target_maxlen,
+			"num_classes": self.num_classes,
+		}
+		return config
 
 
 # Returns mapping of audio paths and transcription texts.
@@ -493,6 +503,18 @@ class CustomSchedule(keras.optimizers.schedules.LearningRateSchedule):
 	def __call__(self, step):
 		epoch = step // self.steps_per_epoch
 		return self.calculate_lr(epoch)
+
+
+	def get_config(self):
+		config = {
+			"init_lr": self.init_lr,
+			"lr_after_warmup": self.lr_after_warmup,
+			"final_lr": self.final_lr,
+			"warmup_epochs": self.warmup_epochs,
+			"decay_epochs": self.decay_epochs,
+			"steps_per_epoch": self.steps_per_epoch,
+		}
+		return config
 
 
 if __name__ == '__main__':
