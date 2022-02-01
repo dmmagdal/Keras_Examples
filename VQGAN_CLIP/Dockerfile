@@ -62,10 +62,8 @@ RUN curl -L -o vqgan_openimages_f16_8192.ckpt -C - 'https://heibox.uni-heidelber
 RUN python3 -m pip install --upgrade pip
 RUN pip3 install -r requirements.txt
 RUN pip3 install -q git+https://github.com/openai/CLIP.git
-#RUN pip3 install -q git+https://github.com/CompVis/taming-transformers.git
-#RUN git clone https://github.com/openai/CLIP.git
 RUN git clone https://github.com/CompVis/taming-transformers.git
-RUN mkdir ./taming-transformers/steps
+RUN mkdir steps
 RUN cp vqganclip.py ./taming-transformers
 RUN cp *.yaml ./taming-transformers
 RUN cp *.ckpt ./taming-transformers

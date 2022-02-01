@@ -158,6 +158,7 @@ def main():
 			ctx.min = min
 			ctx.max = max
 			ctx.save_for_backward(input)
+			return input.clamp(min, max)
 
 
 		@staticmethod
@@ -188,7 +189,7 @@ def main():
 			input_normed = F.normalize(input.unsqueeze(1), dim=2)
 			embed_normed = F.normalize(self.embed.unsqueeze(0), dim=2)
 			dists = input_normed.sub(embed_normed).norm(dim=2).div(2)\
-				.arcsin().pow(2).nul(2)
+				.arcsin().pow(2).mul(2)
 			dists = dists * self.weight.sign()
 			return self.weight.abs() *\
 				replace_grad(dists, torch.maximum(dists, self.stop))\
@@ -472,19 +473,20 @@ def main():
 
 	@torch.no_grad()
 	def checkin(i, losses):
-		losses_str = ", ".join(f"{loss.item():g}" for lss in losses)
+		losses_str = ", ".join(f"{loss.item():g}" for loss in losses)
 		tqdm.write(
 			f"i: {i}, loss: {sum(losses).item():g}, losses: {losses_str}"
 		)
 		out = synth(z)
 		TF.to_pil_image(out[0].cpu()).save("progress.png")
-		display.display(display.Image("progress.png"))
+		# MAY UNCOMMENT WHEN NOT RUNNING ON DOCKER.
+		#display.display(display.Image("progress.png"))
 
 
-	def ascend_txt():
-		global i
+	def ascend_txt(i):
+		#global i
 		out = synth(z)
-		iii = perceptor.encoder_image(normalize(make_cutouts(out))).float()
+		iii = perceptor.encode_image(normalize(make_cutouts(out))).float()
 
 		result = []
 
@@ -507,7 +509,7 @@ def main():
 
 	def train(i):
 		opt.zero_grad()
-		lossAll = ascend_txt()
+		lossAll = ascend_txt(i)
 		if i % args.display_freq == 0:
 			checkin(i, lossAll)
 
@@ -550,24 +552,25 @@ def main():
 	# fps = last_frame / 10
 	fps = np.clip(total_frames / length, min_fps, max_fps)
 
-	p = Popen(
-		["ffmpeg", "-y", "-f", "image2pipe", "-vcodec", "png", "-r", 
-		str(fps), "-i", "-", "-vcodec", "libx264", "-r", str(fps),
-		"-pix_fmt", "yuv420p", "-crf", "17", "-preset", "veryslow",
-		"video.mp4"],
-		stdin=PIPE
-	)
-	for im in tqdm(frames):
-		im.save(p.stdin, "PNG")
-	p.stdin.close()
-	p.wait()
-	mp4 = open("video/mp4", "rb").read()
-	data_url = "data:video/mp4;base64," + b64encode(mp4).decode()
-	display.HTML('''
-		<video width=400 controls>
-			<source src="%s" type="video/mp4">
-		</video>
-	''' % data_url)
+	# MAY UNCOMMENT WHEN NOT RUNNING ON DOCKER.
+	#p = Popen(
+	#	["ffmpeg", "-y", "-f", "image2pipe", "-vcodec", "png", "-r", 
+	#	str(fps), "-i", "-", "-vcodec", "libx264", "-r", str(fps),
+	#	"-pix_fmt", "yuv420p", "-crf", "17", "-preset", "veryslow",
+	#	"video.mp4"],
+	#	stdin=PIPE
+	#)
+	#for im in tqdm(frames):
+	#	im.save(p.stdin, "PNG")
+	#p.stdin.close()
+	#p.wait()
+	#mp4 = open("video/mp4", "rb").read()
+	#data_url = "data:video/mp4;base64," + b64encode(mp4).decode()
+	#display.HTML('''
+	#	<video width=400 controls>
+	#		<source src="%s" type="video/mp4">
+	#	</video>
+	#''' % data_url)
 
 	# Exit the program.
 	exit(0)
