@@ -1,0 +1,10 @@
+einops
+ftfy
+imageio
+imageio-ffmpeg
+kornia
+numpy
+omegaconf
+pillow
+pytorch-lightning
+tqdm

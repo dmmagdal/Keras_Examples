@@ -1,0 +1,8 @@
+einops
+opencv-python
+omegaconf
+pillow
+pytorch-lightning>=1.5
+rudalle==0.4.0
+tokenizers>=0.10.2
+tqdm>=4.46.0
