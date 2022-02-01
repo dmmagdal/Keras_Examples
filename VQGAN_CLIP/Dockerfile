@@ -24,7 +24,8 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y git curl
 
-# Download all models.
+# Download all models. Alternate download URLs listed here:
+# https://www.reddit.com/r/bigsleep/comments/p96pnh/a_site_that_hosts_some_vqgan_models_isnt_working/
 #ImageNet 1024 (Error: Could not resolve host mirror.io.community)
 #RUN curl -L -o vqgan_imagenet_f16_1024.yaml -C - 'http://mirror.io.community/blob/vqgan/vqgan_imagenet_f16_1024.yaml'
 #RUN !curl -L -o vqgan_imagenet_f16_1024.ckpt -C - 'http://mirror.io.community/blob/vqgan/vqgan_imagenet_f16_1024.ckpt'
