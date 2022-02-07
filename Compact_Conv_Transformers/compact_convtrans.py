@@ -284,7 +284,7 @@ def main():
 			],
 		)
 
-		checkpoint_filepath = "/tmp/checkpoint"
+		checkpoint_filepath = "./tmp/checkpoint"
 		checkpoint_callback = keras.callbacks.ModelCheckpoint(
 			checkpoint_filepath, monitor="val_accuracy",
 			save_best_only=True, save_weights_only=True,
