@@ -317,7 +317,7 @@ def main():
 			optimizer=optimizer, loss=loss_fn, metrics=["accuracy"]
 		)
 
-		checkpoint_filepath = "/tmp/checkpoint"
+		checkpoint_filepath = "./tmp/checkpoint"
 		checkpoint_callback = keras.callbacks.ModelCheckpoint(
 			checkpoint_filepath,
 			monitor="val_accuracy",
@@ -367,4 +367,6 @@ def main():
 
 
 if __name__ == '__main__':
-	main()
+	# Need to use CPU unless using a GPU with more than 8GB VRAM.
+	with tf.device("/cpu:0"): 
+		main()
