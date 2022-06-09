@@ -395,7 +395,7 @@ def main():
 			x = self.conv1(inputs)
 			x = self.pixel_conv(x)
 			x = self.conv2(x)
-			return layers.Add([inputs, x])
+			return layers.Add()([inputs, x])
 
 	pixelcnn_inputs = keras.Input(
 		shape=pixelcnn_input_shape, dtype=tf.int32
