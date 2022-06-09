@@ -466,7 +466,7 @@ def main():
 	x = pixel_cnn(inputs, training=False)
 	dist = tfp.distributions.Categorical(logits=x)
 	sampled = dist.sample()
-	sampler = keras.Model(inputs, sampled)
+	sampler = keras.Model(inputs=inputs, outputs=sampled, name="sampler")
 
 	# Can now construct a prior to generate images. The following code
 	# below will generate 10 images.
