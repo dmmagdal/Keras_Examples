@@ -61,7 +61,7 @@ def main():
 	# Data.
 	dataset_name = "oxford_flowers102"
 	dataset_repetitions = 5
-	num_epochs = 1  # train for at least 50 epochs for good results
+	num_epochs = 50#1  # train for at least 50 epochs for good results
 	image_size = 64
 
 	# KID = Kernel Inception Distance, see related section.
@@ -392,9 +392,6 @@ def main():
 
 
 		def get_config(self):
-			# return {
-			# 	"width": self.width,
-			# }
 			config = super(ResidualBlock, self).get_config()
 			config.update({
 				"width": self.width,
@@ -424,10 +421,6 @@ def main():
 
 
 		def get_config(self):
-			# return {
-			# 	"width": self.width,
-			# 	"block_depth": self.block_depth,
-			# }
 			config = super(DownBlock, self).get_config()
 			config.update({
 				"width": self.width,
@@ -460,10 +453,6 @@ def main():
 
 
 		def get_config(self):
-			# return {
-			# 	"width": self.width,
-			# 	"block_depth": self.block_depth,
-			# }
 			config = super(UpBlock, self).get_config()
 			config.update({
 				"width": self.width,
@@ -664,7 +653,10 @@ def main():
 				# Separate the current noisy image to its components.
 				diffusion_times = tf.ones((num_images, 1, 1, 1)) -\
 					step * step_size
-				noise_rates, signal_rates = self.denoise(
+				noise_rates, signal_rates = self.diffusion_schedule(
+					diffusion_times
+				)
+				pred_noises, pred_images = self.denoise(
 					noisy_images, noise_rates, signal_rates, 
 					training=False
 				)
@@ -677,7 +669,7 @@ def main():
 					next_diffusion_times
 				)
 				next_noisy_images = (
-					next_signal_rates * pred_images +next_noise_rates *
+					next_signal_rates * pred_images + next_noise_rates *
 						pred_noises
 				)
 				# This new noisy image will be used in the next step.
@@ -787,7 +779,7 @@ def main():
 			)
 			self.kid.update_state(images, generated_images)
 
-			return {m.name: n.result() for m in self.metrics}
+			return {m.name: m.result() for m in self.metrics}
 
 
 		def plot_images(self, epoch=None, logs=None, num_rows=3, 
@@ -808,7 +800,8 @@ def main():
 					plt.axis("off")
 			plt.tight_layout()
 			# plt.show()
-			plt.savefig(f"{epoch}_img_plot.png", "png")
+			plt.savefig(f"{epoch}_img_plot.png")
+			# plt.savefig(f"{epoch}_img_plot.png", "png")
 			plt.close()
 
 
