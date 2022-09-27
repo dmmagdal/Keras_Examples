@@ -1,0 +1,4 @@
+matplotlib
+scipy
+tensorflow-addons==0.17.1
+tensorflow-datasets==4.4.0
