@@ -231,7 +231,7 @@ def main():
 			mean_kernel_generated = tf.math.reduce_sum(
 				kernel_generated * (1.0 - tf.eye(batch_size))
 			) / (batch_size_f * (batch_size_f - 1.0))
-			mean_kernel_cross = tf.math.reduce_sum(kernel_cross)
+			mean_kernel_cross = tf.math.reduce_mean(kernel_cross)
 			kid = mean_kernel_real + mean_kernel_generated - 2.0 *\
 				mean_kernel_cross
 
