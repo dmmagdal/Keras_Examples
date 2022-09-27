@@ -61,7 +61,7 @@ def main():
 	# Data.
 	dataset_name = "oxford_flowers102"
 	dataset_repetitions = 5
-	num_epochs = 50#1  # train for at least 50 epochs for good results
+	num_epochs = 1  # train for at least 50 epochs for good results
 	image_size = 64
 
 	# KID = Kernel Inception Distance, see related section.
