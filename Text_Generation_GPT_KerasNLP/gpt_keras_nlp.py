@@ -105,6 +105,22 @@ def main():
 		reserved_tokens=["[PAD]", "[UNK]", "[BOS]"],
 	)
 
+	###################################################################
+	# TODO: current version of KerasNLP (0.3.0 or 0.3.1) does not
+	# have compute_word_piece_vocabulary() as part of
+	# keras_nlp.tokenizers. It does have that function as part of
+	# keras_nlp.tokenizers.word_piece_tokenizer_trainer but that is
+	# not a part of the officially released module in v0.3.1. The only
+	# way to currently install it is through building the package from
+	# the git repo with: 
+	# pip install git+https://github.com/keras-team/keras-nlp.git
+	# But that also has its own set of challenges. This example cannot
+	# be verified until there is an update that resolves this.
+	# For more information, see:
+	# https://github.com/keras-team/keras-io/issues/1031
+	# https://github.com/keras-team/keras-nlp/blob/master/keras_nlp/tokenizers/word_piece_tokenizer_trainer.py
+	###################################################################
+
 	# Load the tokenizer
 	# We use the vocabulary data to initialize 
 	# keras_nlp.tokenizers.WordPieceTokenizer. WordPieceTokenizer is 
