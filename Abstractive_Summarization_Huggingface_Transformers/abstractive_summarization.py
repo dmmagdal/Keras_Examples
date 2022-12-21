@@ -25,7 +25,7 @@
 # Abstractive Summarization task using Hugging Face Transformers on the
 # XSum dataset loaded from Hugging Face Datasets.
 # Source: https://keras.io/examples/nlp/t5_hf_summarization/
-# Tensorflow 2.4/2.7
+# Tensorflow 2.7/2.9
 # Python 3.7
 # Windows/MacOS/Linux
 
