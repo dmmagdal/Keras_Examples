@@ -1,0 +1,4 @@
+datasets
+huggingface-hub
+tensorflow-text==2.6.0
+transformers==4.20.0
