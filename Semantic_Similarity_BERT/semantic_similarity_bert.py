@@ -275,6 +275,7 @@ def main():
 		use_multiprocessing=True,
 		workers=-1,
 	)
+	del history
 
 	# Finetuning
 	# This step must only be performed after the feature extraction 
