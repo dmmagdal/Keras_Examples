@@ -13,6 +13,7 @@
 # Windows/MacOS/Linux
 
 
+import gc
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -276,6 +277,7 @@ def main():
 		workers=-1,
 	)
 	del history
+	gc.collect()
 
 	# Finetuning
 	# This step must only be performed after the feature extraction 
@@ -302,6 +304,8 @@ def main():
 		use_multiprocessing=True,
 		workers=-1,
 	)
+	del history
+	gc.collect()
 
 	# Evaluate model on the test set
 	test_data = BertSemanticDataGenerator(
