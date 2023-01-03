@@ -352,5 +352,4 @@ def main():
 
 
 if __name__ == '__main__':
-	with tf.device("cpu"):
-		main()
+	main()
