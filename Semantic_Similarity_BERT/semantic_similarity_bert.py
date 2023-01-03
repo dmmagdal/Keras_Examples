@@ -288,26 +288,24 @@ def main():
 	# features to the new data.
 	# Unfreeze the bert_model.
 	bert_model.trainable = True
+	# Recompile the model to make the change effective.
+	model.compile(
+		optimizer=keras.optimizers.Adam(1e-5),
+		loss="categorical_crossentropy",
+		metrics=["accuracy"],
+	)
+	model.summary()
 
-	with tf.device('cpu'):
-		# Recompile the model to make the change effective.
-		model.compile(
-			optimizer=keras.optimizers.Adam(1e-5),
-			loss="categorical_crossentropy",
-			metrics=["accuracy"],
-		)
-		model.summary()
-
-		# Train the entire model end-to-end
-		history = model.fit(
-			train_data,
-			validation_data=valid_data,
-			epochs=epochs,
-			use_multiprocessing=True,
-			workers=-1,
-		)
-		del history
-		gc.collect()
+	# Train the entire model end-to-end
+	history = model.fit(
+		train_data,
+		validation_data=valid_data,
+		epochs=epochs,
+		use_multiprocessing=True,
+		workers=-1,
+	)
+	del history
+	gc.collect()
 
 	# Evaluate model on the test set
 	test_data = BertSemanticDataGenerator(
@@ -354,4 +352,5 @@ def main():
 
 
 if __name__ == '__main__':
-	main()
+	with tf.device("cpu"):
+		main()
