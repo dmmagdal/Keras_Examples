@@ -96,7 +96,9 @@ def main():
 
 	first_conv_channels = 64
 	channel_multiplier = [1, 2, 4, 8]
-	widths = [first_conv_channels * mult for mult in channel_multiplier]
+	widths = [
+		first_conv_channels * mult for mult in channel_multiplier
+	]
 	has_attention = [False, False, True, True]
 	num_res_blocks = 2  # Number of residual blocks
 
