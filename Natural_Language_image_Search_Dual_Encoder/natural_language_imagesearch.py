@@ -10,10 +10,10 @@
 # captions into the same embedding space, such that the caption
 # embeddings are located near the embeddings of the images they
 # describe.
-#
 # This example requires Tensorflow 2.4 or higher. In additon,
 # Tensorflow Hub and Tensorflow Text are required for the BERT model,
 # and Tensorflow Addons is required for the AdamW optimizer.
+# Source: https://keras.io/examples/nlp/nl_image_search/
 # Tensorflow 2.4.0
 # Python 3.7
 # Windows/MacOS/Linux
